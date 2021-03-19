@@ -1,5 +1,6 @@
 #include <string>
 #include "Direction.hpp"
+#include <vector>
 
 namespace ariel{
 		class Board{
@@ -7,6 +8,7 @@ namespace ariel{
 		private:
 			int rows;
 			int columns;
+			std::vector<std::vector<char>> message_board;
 
 
 		public:
