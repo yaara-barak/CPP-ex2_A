@@ -35,7 +35,7 @@ using namespace ariel;
 
 	string Board::read(int row_loc, int column_loc, Direction direction, int ad_len)
     {
-		string read_ad="";
+		string read_ad="___";
 		// if(direction==Direction::Horizontal){
 		// 	for (int i=row_loc;i<row_loc+ad_len;i++){
 		// 		read_ad=read_ad+message_board[i][column_loc];

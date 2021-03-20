@@ -1,32 +1,78 @@
-/**
- * Demo program for message-board exercise.
- * 
- * Author: Erel Segal-Halevi
- * Since : 2021-03
- */
-
+#include <string>
 #include "Board.hpp"
-#include "Direction.hpp"
-using ariel::Direction;
+#include "doctest.h"
 
-#include <iostream>
-#include <stdexcept>
+using namespace ariel;
 using namespace std;
 
-int main() {
-	ariel::Board board;
-	board.post(/*row=*/100, /*column=*/200, Direction::Horizontal, "abcd");
-	cout << board.read(/*row=*/99, /*column=*/201, Direction::Vertical, /*length=*/3) << endl;  
-		// prints "_b_" (starts at row 99 which is empty; then at row 100 there is "b"; then row 101 is empty again).
-	board.post(/*row=*/99, /*column=*/202, Direction::Vertical, "xyz");
-	cout << board.read(/*row=*/100, /*column=*/200, Direction::Horizontal, /*length=*/6) << endl;  
-		// prints "abyd__" (First letters are ab; then y from the "xyz"; then d; then two empty cells).
+Board message_board_basic;
+Board message_board;
 
-	board.show(); // shows the board in a reasonable way. For example:
-		//    98:  _________
-		//    99:  ____x____
-		//    100: __abyd___
-		//    101: ____z____
-		//    102: _________
+TEST_CASE("basic checks for post and read functions")
+{
+    //10 rows 20 columns
+	message_board_basic.post(0, 0, Direction::Horizontal,"row number zero     ");
+    message_board_basic.post(1, 0, Direction::Horizontal,"row number one      ");
+    message_board_basic.post(2, 0, Direction::Horizontal,"row number two      ");
+    message_board_basic.post(3, 0, Direction::Horizontal,"row number three    ");
+    message_board_basic.post(4, 0, Direction::Horizontal,"row number four     ");
+    message_board_basic.post(5, 0, Direction::Horizontal,"row number five");
+    message_board_basic.post(6, 0, Direction::Horizontal,"row number six");
+    message_board_basic.post(7, 0, Direction::Horizontal,"row number seven");
+    message_board_basic.post(8, 0, Direction::Horizontal,"row number eight");
+    message_board_basic.post(9, 0, Direction::Horizontal,"row number nine");
+  
+	CHECK(message_board_basic.read(0, 0, Direction::Horizontal, 20) == string("row number zero     "));
+	CHECK(message_board_basic.read(1, 0, Direction::Horizontal, 20) == string("row number one      "));
+	CHECK(message_board_basic.read(2, 0, Direction::Horizontal, 20) == string("row number two      "));
+	CHECK(message_board_basic.read(3, 0, Direction::Horizontal, 20) == string("row number three    "));
+	CHECK(message_board_basic.read(4, 0, Direction::Horizontal, 20) == string("row number four     "));
+	CHECK(message_board_basic.read(5, 0, Direction::Horizontal, 20) == string("row number five_____"));
+	CHECK(message_board_basic.read(6, 0, Direction::Horizontal, 20) == string("row number six______"));
+	CHECK(message_board_basic.read(7, 0, Direction::Horizontal, 20) == string("row number seven____"));
+	CHECK(message_board_basic.read(8, 0, Direction::Horizontal, 20) == string("row number eight____"));
+	CHECK(message_board_basic.read(9, 0, Direction::Horizontal, 20) == string("row number nine_____"));
 }
 
+TEST_CASE("post check basic")
+{
+	CHECK_NOTHROW(message_board_basic.post(10, 0, Direction::Horizontal,"row number ten"));
+	CHECK_NOTHROW(message_board_basic.post(11, 0, Direction::Horizontal,"row number eleven"));
+	CHECK_NOTHROW(message_board_basic.post(12, 0, Direction::Horizontal,"row number twelve"));
+}
+
+TEST_CASE("read check basic")
+{
+	CHECK(message_board_basic.read(10, 0, Direction::Horizontal, 20) == string("row number ten______"));
+	CHECK(message_board_basic.read(11, 0, Direction::Horizontal, 20) == string("row number eleven___"));
+	CHECK(message_board_basic.read(12, 0, Direction::Horizontal, 20) == string("row number twelve___"));
+	CHECK(message_board_basic.read(0, 12, Direction::Vertical, 13) == string("zottffssentet"));
+	CHECK(message_board_basic.read(0, 0, Direction::Vertical, 13) == string("rrrrrrrrrrrrr"));
+	CHECK(message_board_basic.read(0, 20, Direction::Vertical, 13) == string("     ________"));
+	CHECK(message_board_basic.read(0, 4, Direction::Horizontal, 6) == string("number"));
+}
+
+TEST_CASE("special cases")
+{
+	//read a new board with no postes yet
+	CHECK(message_board.read(0, 0, Direction::Horizontal, 1) == string("_"));
+	CHECK(message_board.read(0, 10, Direction::Vertical, 1) == string("__________"));
+	CHECK(message_board.read(100, 100, Direction::Vertical, 1) == string("_"));
+	//read 0 letters
+	CHECK(message_board.read(0, 0, Direction::Horizontal, 0) == string(""));
+	CHECK(message_board.read(0, 0, Direction::Vertical, 0) == string(""));
+	//read after posting two posts in the same location 
+	CHECK_NOTHROW(message_board.post(0, 0, Direction::Horizontal,"first post"));
+	CHECK_NOTHROW(message_board.post(0, 0, Direction::Horizontal,"second"));
+	CHECK(message_board.read(0, 0, Direction::Horizontal, 10) == string("secondpost"));
+	//post and read in the corners
+	CHECK_NOTHROW(message_board.post(1, 0, Direction::Horizontal,"random post"));
+	CHECK(message_board.read(1, 11, Direction::Horizontal, 4) == string("t___"));
+	CHECK(message_board.read(0, 10, Direction::Vertical, 6) == string("ts____"));
+	//post and read uppercase letters
+	CHECK_NOTHROW(message_board.post(2, 0, Direction::Horizontal,"UPPERcase ChEcKs"));
+	CHECK(message_board.read(2, 5, Direction::Horizontal, 3) == string("Rca"));
+	//post and raed special letters
+	CHECK_NOTHROW(message_board.post(3, 0, Direction::Horizontal,"!@#$%^&*()"));
+	CHECK(message_board.read(3, 0, Direction::Horizontal,10) == string("!@#$%^&*()"));
+}
