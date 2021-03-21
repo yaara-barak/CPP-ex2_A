@@ -15,6 +15,9 @@ using namespace std;
 
 int main() {
 	ariel::Board board;
+	// board.post(/*row=*/1, /*column=*/2, Direction::Horizontal, "abc");
+	// cout << board.read(/*row=*/1, /*column=*/0, Direction::Vertical, /*length=*/10) << endl; 
+	// board.show();
 	board.post(/*row=*/100, /*column=*/200, Direction::Horizontal, "abcd");
 	cout << board.read(/*row=*/99, /*column=*/201, Direction::Vertical, /*length=*/3) << endl;  
 		// prints "_b_" (starts at row 99 which is empty; then at row 100 there is "b"; then row 101 is empty again).

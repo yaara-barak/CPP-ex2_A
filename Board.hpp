@@ -6,8 +6,8 @@ namespace ariel{
 		class Board{
 	
 		private:
-			unsigned int rows;
-			unsigned int columns;
+			unsigned int max_row;
+			unsigned int max_column;
 			std::vector<std::vector<char>> message_board;
 
 

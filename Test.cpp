@@ -11,16 +11,16 @@ Board message_board;
 TEST_CASE("basic checks for post and read functions")
 {
     //10 rows 20 columns
-	message_board_basic.post(0, 0, Direction::Horizontal,"row number zero     ");
-    message_board_basic.post(1, 0, Direction::Horizontal,"row number one      ");
-    message_board_basic.post(2, 0, Direction::Horizontal,"row number two      ");
-    message_board_basic.post(3, 0, Direction::Horizontal,"row number three    ");
-    message_board_basic.post(4, 0, Direction::Horizontal,"row number four     ");
-    message_board_basic.post(5, 0, Direction::Horizontal,"row number five");
-    message_board_basic.post(6, 0, Direction::Horizontal,"row number six");
-    message_board_basic.post(7, 0, Direction::Horizontal,"row number seven");
-    message_board_basic.post(8, 0, Direction::Horizontal,"row number eight");
-    message_board_basic.post(9, 0, Direction::Horizontal,"row number nine");
+	CHECK_NOTHROW(message_board_basic.post(0, 0, Direction::Horizontal,"row number zero     "));
+    CHECK_NOTHROW(message_board_basic.post(1, 0, Direction::Horizontal,"row number one      "));
+    CHECK_NOTHROW(message_board_basic.post(2, 0, Direction::Horizontal,"row number two      "));
+    CHECK_NOTHROW(message_board_basic.post(3, 0, Direction::Horizontal,"row number three    "));
+    CHECK_NOTHROW(message_board_basic.post(4, 0, Direction::Horizontal,"row number four     "));
+    CHECK_NOTHROW(message_board_basic.post(5, 0, Direction::Horizontal,"row number five"));
+    CHECK_NOTHROW(message_board_basic.post(6, 0, Direction::Horizontal,"row number six"));
+    CHECK_NOTHROW(message_board_basic.post(7, 0, Direction::Horizontal,"row number seven"));
+    CHECK_NOTHROW(message_board_basic.post(8, 0, Direction::Horizontal,"row number eight"));
+    CHECK_NOTHROW(message_board_basic.post(9, 0, Direction::Horizontal,"row number nine"));
   
 	CHECK(message_board_basic.read(0, 0, Direction::Horizontal, 20) == string("row number zero     "));
 	CHECK(message_board_basic.read(1, 0, Direction::Horizontal, 20) == string("row number one      "));
