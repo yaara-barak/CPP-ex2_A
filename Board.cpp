@@ -11,31 +11,67 @@ using namespace ariel;
     {
         rows = 0;
         columns = 0;
-		message_board.push_back(vector<char>(1, '_'));
+		message_board.push_back(vector<char>{'_'});
     }
 
-	void Board::post(int row_loc,int column_loc, Direction direction, string ad_data)
+	void Board::post(unsigned int row_loc,unsigned int column_loc, Direction direction, string ad_data)
     {
-		// int location=0;
-		// if(direction==Direction::Horizontal){
-		// 	for (int i=row_loc;i<row_loc+(ad_data.length());i++){
-		// 		message_board[i][column_loc]=ad_data.at(location);
-		// 		location++;
-		// 	}
-		// }
-		// else{
-		// 	if(direction==Direction::Vertical){
-		// 		for (int j=column_loc;j<column_loc+(ad_data.length());j++){
-		// 			message_board[row_loc][j]=ad_data.at(location);
-		// 			location++;
-		// 		}
-		// 	}
-		// }
+		if(ad_data.length()==0){
+			return;
+		}
+		int index_in_string=0;
+		//if the rows location for post is bigger then numbers of rows
+		if(rows<row_loc){
+			for(int i=rows-1;i<=row_loc;i++){
+				message_board.push_back(vector<char>(columns,'_'));
+			}
+			rows=row_loc;
+			}
+		//if the column location for post bigger then the numbers of columns
+		if(columns<column_loc){
+			for(int i=0;i<rows;i++){
+				for(int j=columns-1; j<=column_loc;j++){
+					message_board.at(i).push_back('_');
+					}
+				}
+			columns=column_loc;
+		}
+		
+		if(direction==Direction::Horizontal){
+			//if the message length bigger then the numbers of columns
+			if(columns<column_loc+ad_data.length()){
+				for(int i=0;i<rows;i++){
+					for(int j=columns-1; j<(column_loc+ad_data.length())-1;j++){
+						message_board.at(i).push_back('_');
+					}
+				}
+				columns=columns+(column_loc+ad_data.length()-columns);
+			}
+			//post the message
+			for (int j=column_loc;j<column_loc+(ad_data.length())-1;j++){
+				message_board.at(row_loc).at(j)=ad_data.at(index_in_string);
+				index_in_string++;
+			}
+		}
+		else{
+			//if the message length bigger then the numbers of columns
+			if(rows<row_loc+ad_data.length()){
+				for(int i=rows-1;i<(row_loc+ad_data.length()-1);i++){
+					message_board.push_back(vector<char>(columns, '_'));
+				}
+				rows= rows+(row_loc+ad_data.length()-rows);
+			}
+			//post the message	
+			for (int i=row_loc;i<row_loc+(ad_data.length())-1;i++){
+				message_board.at(i).at(column_loc)=ad_data.at(index_in_string);
+				index_in_string++;
+			}
+		}
 	}
 
-	string Board::read(int row_loc, int column_loc, Direction direction, int ad_len)
+	string Board::read(unsigned int row_loc,unsigned int column_loc, Direction direction,unsigned int ad_len)
     {
-		string read_ad="___";
+		string read_ad="";
 		// if(direction==Direction::Horizontal){
 		// 	for (int i=row_loc;i<row_loc+ad_len;i++){
 		// 		read_ad=read_ad+message_board[i][column_loc];
