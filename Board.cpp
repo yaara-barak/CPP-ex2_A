@@ -22,21 +22,21 @@ using namespace ariel;
 		
 		//if the row location for post is bigger then numbers of rows
 		if(max_row<row_loc){
-			for(int i=max_row+1;i<=row_loc;i++){
-				message_board.push_back(vector<char>(max_column,'_'));
+			for(int i=0;i<=(row_loc-max_row)-1;i++){
+				message_board.push_back(vector<char>(max_column+1,'_'));
 			}
 			max_row=row_loc;
 			}
 		//if the column location for post bigger then the numbers of columns
 		if(max_column<column_loc){
 			for(int i=0;i<=max_row;i++){
-				for(int j=max_column+1; j<=column_loc;j++){
+				for(int j=0; j<=(column_loc-max_column)-1;j++){
 					message_board.at(i).push_back('_');
-					}
 				}
+			}
 			max_column=column_loc;
 		}
-		
+
 		int index_in_string=0;
 		
 		if(direction==Direction::Horizontal){
@@ -59,7 +59,7 @@ using namespace ariel;
 			//if the message length bigger then the numbers of columns
 			if(max_row<(row_loc+ad_data.length()-1)){
 				for(int i=max_row;i<=(row_loc+ad_data.length()-1);i++){
-					message_board.push_back(vector<char>(max_column, '_'));
+					message_board.push_back(vector<char>(max_column+1, '_'));
 				}
 				max_row= row_loc+ad_data.length()-1;
 			}
@@ -69,10 +69,12 @@ using namespace ariel;
 				index_in_string++;
 			}
 		}
+	
 	}
 
 	string Board::read(unsigned int row_loc,unsigned int column_loc, Direction direction,unsigned int ad_len)
     {
+
 		string read_ad="";
 		//if the length that need to read is 0
 		if(ad_len==0){
@@ -87,15 +89,15 @@ using namespace ariel;
 						}
 		   return read_ad;
 		}
-
+		
 		if(direction==Direction::Horizontal){
-			for (int j=column_loc;j<max_column;j++){
+			for (int j=column_loc;j<=max_column;j++){
 				read_ad=read_ad+message_board.at(row_loc).at(j);
 			}
 		}
 		else
 		{
-			for (int i=row_loc;i<max_row;i++){
+			for (int i=row_loc;i<=max_row;i++){
 				read_ad=read_ad+message_board.at(i).at(column_loc);
 			}
 		}
@@ -116,10 +118,10 @@ using namespace ariel;
 
 	void Board::show()
 	{
-		for (int i = 0; i < message_board.size(); i++)
+		for (int i = 0; i <= max_row; i++)
         {
             cout << i << ": ";
-            for (int j = 0; j < message_board.at(i).size(); j++)
+            for (int j = 0; j <= max_column; j++)
             {
                 cout << message_board.at(i).at(j);
             }

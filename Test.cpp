@@ -46,9 +46,9 @@ TEST_CASE("read check basic")
 	CHECK(message_board_basic.read(10, 0, Direction::Horizontal, 20) == string("row number ten______"));
 	CHECK(message_board_basic.read(11, 0, Direction::Horizontal, 20) == string("row number eleven___"));
 	CHECK(message_board_basic.read(12, 0, Direction::Horizontal, 20) == string("row number twelve___"));
-	CHECK(message_board_basic.read(0, 12, Direction::Vertical, 13) == string("zottffssentet"));
+	CHECK(message_board_basic.read(0, 11, Direction::Vertical, 13) == string("zottffssentet"));
 	CHECK(message_board_basic.read(0, 0, Direction::Vertical, 13) == string("rrrrrrrrrrrrr"));
-	CHECK(message_board_basic.read(0, 20, Direction::Vertical, 13) == string("     ________"));
+	CHECK(message_board_basic.read(0, 19, Direction::Vertical, 13) == string("     ________"));
 	CHECK(message_board_basic.read(0, 4, Direction::Horizontal, 6) == string("number"));
 }
 
@@ -67,8 +67,8 @@ TEST_CASE("special cases")
 	CHECK(message_board.read(0, 0, Direction::Horizontal, 10) == string("secondpost"));
 	//post and read in the corners
 	CHECK_NOTHROW(message_board.post(1, 0, Direction::Horizontal,"random post"));
-	CHECK(message_board.read(1, 11, Direction::Horizontal, 4) == string("t___"));
-	CHECK(message_board.read(0, 10, Direction::Vertical, 6) == string("ts____"));
+	CHECK(message_board.read(1, 10, Direction::Horizontal, 4) == string("t___"));
+	CHECK(message_board.read(0, 9, Direction::Vertical, 6) == string("ts____"));
 	//post and read uppercase letters
 	CHECK_NOTHROW(message_board.post(2, 0, Direction::Horizontal,"UPPERcase ChEcKs"));
 	CHECK(message_board.read(2, 5, Direction::Horizontal, 3) == string("Rca"));
