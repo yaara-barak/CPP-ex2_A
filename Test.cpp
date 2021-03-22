@@ -56,7 +56,7 @@ TEST_CASE("special cases")
 {
 	//read a new board with no postes yet
 	CHECK(message_board.read(0, 0, Direction::Horizontal, 1) == string("_"));
-	CHECK(message_board.read(0, 10, Direction::Vertical, 1) == string("__________"));
+	CHECK(message_board.read(0, 10, Direction::Vertical, 10) == string("__________"));
 	CHECK(message_board.read(100, 100, Direction::Vertical, 1) == string("_"));
 	//read 0 letters
 	CHECK(message_board.read(0, 0, Direction::Horizontal, 0) == string(""));
@@ -67,11 +67,12 @@ TEST_CASE("special cases")
 	CHECK(message_board.read(0, 0, Direction::Horizontal, 10) == string("secondpost"));
 	//post and read in the corners
 	CHECK_NOTHROW(message_board.post(1, 0, Direction::Horizontal,"random post"));
-	CHECK(message_board.read(1, 10, Direction::Horizontal, 4) == string("t___"));
+	CHECK(message_board.read(1, 10, Direction::Horizontal, 3) == string("t__"));
 	CHECK(message_board.read(0, 9, Direction::Vertical, 6) == string("ts____"));
+	CHECK(message_board.read(0, 10, Direction::Vertical, 6) == string("_t____"));
 	//post and read uppercase letters
 	CHECK_NOTHROW(message_board.post(2, 0, Direction::Horizontal,"UPPERcase ChEcKs"));
-	CHECK(message_board.read(2, 5, Direction::Horizontal, 3) == string("Rca"));
+	CHECK(message_board.read(2, 4, Direction::Horizontal, 3) == string("Rca"));
 	//post and raed special letters
 	CHECK_NOTHROW(message_board.post(3, 0, Direction::Horizontal,"!@#$%^&*()"));
 	CHECK(message_board.read(3, 0, Direction::Horizontal,10) == string("!@#$%^&*()"));

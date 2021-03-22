@@ -84,35 +84,44 @@ using namespace ariel;
 		if((direction==Direction::Horizontal && column_loc>max_column)||(direction==Direction::Vertical && row_loc>max_row)
 				||(direction==Direction::Horizontal && row_loc>max_row)||(direction==Direction::Vertical && column_loc>max_column) 
 					|| (row_loc>max_row && column_loc>max_column)){
-						for(int x=1;x<ad_len;x++){
+						for(int x=0;x<ad_len;x++){
 							read_ad= read_ad+"_";
 						}
 		   return read_ad;
 		}
-		
-		if(direction==Direction::Horizontal){
-			for (int j=column_loc;j<=max_column;j++){
-				read_ad=read_ad+message_board.at(row_loc).at(j);
-			}
-		}
-		else
-		{
-			for (int i=row_loc;i<=max_row;i++){
-				read_ad=read_ad+message_board.at(i).at(column_loc);
-			}
-		}
 		//if the we need to read horizontal more lettrs then exist
 		if(direction==Direction::Horizontal && max_column<column_loc+ad_len-1){
+			for(int j=0;j<ad_len-(column_loc+ad_len-1-max_column);j++){
+					read_ad=read_ad+message_board.at(row_loc).at(column_loc+j);
+			}
 			for(int x=0; x<column_loc+ad_len-1-max_column;x++){
 				read_ad=read_ad+"_";
 			}
 		}
+		else{
+			if(direction==Direction::Horizontal){
+				for (int j=0;j<ad_len;j++){
+					read_ad=read_ad+message_board.at(row_loc).at(column_loc+j);
+				}
+			}
+		}
 		//if the we need to read vertical more lettrs then exist
 		if(direction==Direction::Vertical && max_row<row_loc+ad_len-1){
+			for (int i=0;i<ad_len-(row_loc+ad_len-1-max_row);i++){
+				read_ad=read_ad+message_board.at(row_loc+i).at(column_loc);
+			}
 			for(int x=0; x<row_loc+ad_len-1-max_row; x++){
 				read_ad=read_ad+"_";
 			}
 		}
+		else
+		{
+			if(direction==Direction::Vertical )
+			for (int i=0;i<ad_len;i++){
+				read_ad=read_ad+message_board.at(row_loc+i).at(column_loc);
+			}
+		}
+		
 		return read_ad;
 	}
 
